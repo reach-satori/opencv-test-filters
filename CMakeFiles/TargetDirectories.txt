@@ -1,3 +1,3 @@
 /home/satori/dev/opencvtest/CMakeFiles/rebuild_cache.dir
-/home/satori/dev/opencvtest/CMakeFiles/DisplayImage.dir
+/home/satori/dev/opencvtest/CMakeFiles/main.dir
 /home/satori/dev/opencvtest/CMakeFiles/edit_cache.dir

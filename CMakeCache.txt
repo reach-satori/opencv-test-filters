@@ -130,7 +130,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=DisplayImage
+CMAKE_PROJECT_NAME:STATIC=filters
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -189,6 +189,15 @@ DisplayImage_SOURCE_DIR:STATIC=/home/satori/dev/opencvtest
 
 //The directory containing a CMake configuration file for OpenCV.
 OpenCV_DIR:PATH=/usr/local/share/OpenCV
+
+//Dependencies for target
+SpreadFilter_LIB_DEPENDS:STATIC=
+
+//Value Computed by CMake
+filters_BINARY_DIR:STATIC=/home/satori/dev/opencvtest
+
+//Value Computed by CMake
+filters_SOURCE_DIR:STATIC=/home/satori/dev/opencvtest
 
 
 ########################

@@ -4,7 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/satori/dev/opencvtest/DisplayImage.cpp" "/home/satori/dev/opencvtest/CMakeFiles/DisplayImage.dir/DisplayImage.cpp.o"
+  "/home/satori/dev/opencvtest/src/SpreadFilter.cpp" "/home/satori/dev/opencvtest/CMakeFiles/main.dir/src/SpreadFilter.cpp.o"
+  "/home/satori/dev/opencvtest/src/main.cpp" "/home/satori/dev/opencvtest/CMakeFiles/main.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -12,7 +13,7 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/local/include"
   "/usr/local/include/opencv"
-  "include"
+  "$(PROJECT_SOURCE_DIR)include"
   )
 
 # Targets to which this target links.
