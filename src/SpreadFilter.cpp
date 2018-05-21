@@ -17,7 +17,6 @@ void sprFilterCallback(int value, void* vparamsPtr) {
 }
 
 void swapPix(cv::Mat& img, cv::Mat& checkGrid,  int h,  int w,  int xspread,  int yspread) {
-
     //clamping and getting random bound values
     int xminbound = ((w - xspread) > 0) ? w - xspread : 0;
     int xmaxbound = ((w + xspread) < img.cols) ? w + xspread : img.cols-1;
@@ -49,7 +48,12 @@ cv::Mat spreadFilter(cv::Mat origImage, int xspread, int yspread) {
     //the swapped pixels become 255 as a flag not to be swapped again
     int width = origImage.cols;
     int height = origImage.rows;
+
+    //strange, if i don't do this the image gets changed in-place
+    //i thought arguments were passed by value: origImage isn't passed by ref or pointer so it should
+    //be a copy already. Might be related to the fact that assigning a mat with = just does a shallow copy in ocv
     cv::Mat copyImage = origImage.clone();
+
     //debug
     /* printf("OPENCV:%d\n", CV_MAJOR_VERSION); */
     /* printf("size: w:%d h:%d\n", width, height);//RIGHT */

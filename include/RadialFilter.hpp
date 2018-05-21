@@ -1,3 +1,11 @@
 
-cv::Mat radialFilter(cv::Mat origImg, int intensity, bool circflag);
-void radFilterCallback(int value, void* imgPtr);
+struct s_radialFilter {
+    int cx;
+    int cy;
+    int intensity;
+    cv::Mat *img;
+};
+
+double getDistance(cv::Point2f p1, cv::Point2f p2);
+cv::Mat radialFilter(cv::Mat origImg, int intensity, int cx, int fy);
+void radFilterTrackCallback(int value, void* paramPtr);
