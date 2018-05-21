@@ -29,6 +29,8 @@ stdio.h
 -
 stdlib.h
 -
+string
+-
 opencv2/opencv.hpp
 -
 SpreadFilter.hpp

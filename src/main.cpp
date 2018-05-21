@@ -1,39 +1,105 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
 #include <opencv2/opencv.hpp>
 #include "SpreadFilter.hpp"
 #include "RadialFilter.hpp"
 
+/* struct s_spreadFilter { */
+/*     int xspr; */
+/*     int yspr; */
+/*     cv::Mat *img; */
+/* }; */
 
-static void on_trackbar(int value, void* imgptr) {
-    /* if (value=0) {value = 1;} */
-    cv::Mat origImg = *static_cast<cv::Mat*>(imgptr);
-    cv::Mat filteredImg;
-    filteredImg = radialFilter(origImg, value, true);
-    cv::imshow("Display Image", filteredImg);
+void printHelp() {
+        printf("usage: DisplayImage.out [-cam | -img] [0 | 1 | 2] [path/to/file]\n");
+        printf("-img tells the program you'll provide a path to an image as a 4th argument.\n");
+        printf("-cam will bring up video feed from a camera to capture the image on the spot.\n");
+        printf("the third argument, 0, 1 or 2, defines which filter you will use.\n");
+        printf("0 for radial filter, 1 for spread filter. (2 not implemented yet)\n");
 }
+
+/* static void radFilterCallback(int value, void* imgPtr) { */
+/*     cv::Mat *origImg = static_cast<cv::Mat*>(imgPtr); */
+/*     imgPtr = NULL; // dunno if i need this but just to be sure */
+/*     cv::Mat filteredImg; */
+/*     filteredImg = radialFilter(*origImg, value, true); */
+/*     cv::imshow("Image", filteredImg); */
+/* } */
+
+/* static void sprFilterCallback(int value, void* vparamsPtr) { */
+/*     s_spreadFilter *paramsPtr = static_cast<s_spreadFilter*>(vparamsPtr); */
+/*     vparamsPtr = NULL; */
+/*     cv::Mat filteredImg; */
+/*     filteredImg = spreadFilter(*(paramsPtr->img), paramsPtr->xspr, paramsPtr->yspr); */
+/*     cv::imshow("Image", filteredImg); */
+/* } */
+
+void runFilter(int filterFlag, cv::Mat *ptrToImg) {
+    /* cv::Mat origImg = *static_cast<cv::Mat*>(vptrToImg); */
+    cv::namedWindow("Image", cv::WINDOW_AUTOSIZE | cv::WINDOW_GUI_EXPANDED);
+    switch(filterFlag) {
+        case 0:
+            {
+            int value = 5;
+            void *vptrToImg = static_cast<void*>(ptrToImg);
+            cv::createTrackbar("intensity", "Image", &value, 255, radFilterCallback, vptrToImg);
+            radFilterCallback(value, vptrToImg);
+            while((cv::waitKey(100) & 0xEFFFFF) != 27);
+            }
+            break;
+        case 1:
+            {
+            s_spreadFilter params;
+            params.xspr = 5;
+            params.yspr = 5;
+            params.img = ptrToImg;
+            void *ptrToParams = &params;
+            cv::createTrackbar("X spread", "Image", &(params.xspr), 255, sprFilterCallback, ptrToParams);
+            cv::createTrackbar("Y spread", "Image", &(params.yspr), 255, sprFilterCallback, ptrToParams);
+            sprFilterCallback(5, ptrToParams);
+            while((cv::waitKey(100) & 0xEFFFFF) != 27);
+            }
+            break;
+    }
+}
+
 
 int main(int argc, char* argv[])
 {
-    int xspr, yspr;
-    if ( argc > 4 || argc < 4 )
-    {
-        printf("usage: DisplayImage.out <Image_Path> <X spread> <Y spread>\n");
+
+    int filterFlag;
+    if( argc != 3 && argc != 4) {
+        printHelp();
         return -1;
-    } else if (argc = 4) {
-        if (sscanf(argv[2], "%i", &xspr) != 1) {
-            printf("Argument error.");
-            return -1;
-        }
-        if (sscanf(argv[3], "%i", &yspr) != 1) {
-            printf("Argument error.");
-            return -1;
-        }
+    }
+    std::string args[4];
+    for(int i = 0; i<argc; i++) {
+        args[i] = argv[i];
+    }
+    if((argc == 4 && args[1] == "-cam") || (argc == 3 && args[1] == "-img")) {
+        printHelp();
+        return -1;
+    }
+    if(sscanf(argv[2], "%d", &filterFlag)<=0) {
+        printHelp();
+        return -1;
+    }
+    if(filterFlag != 0 && filterFlag != 1 && filterFlag != 2) {
+        printHelp();
+        return -1;
+    }
+    if (args[1] == "-cam") {
+        printHelp();
+        printf("unimplemented");
+        return -1;
     }
 
-    cv::Mat origImg, filteredImg;
-    origImg = cv::imread(argv[1], cv::IMREAD_COLOR);
+
+
+    cv::Mat origImg;
+    origImg = cv::imread(argv[3], cv::IMREAD_COLOR);
 
     if ( !origImg.data )
     {
@@ -44,19 +110,8 @@ int main(int argc, char* argv[])
     /* image = spreadFilter(image, xspr, yspr); */
     /* image = radialFilter(image, intensity, circflag); */
     /* cv::imwrite("test.jpg", image); */
-    int intensity = 1;
-    bool circflag = true;
-    cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE | cv::WINDOW_GUI_EXPANDED);
-
-    int value = 5;
-    bool changed = true;
-    void *ptrToImg = &origImg;
-    cv::createTrackbar("track1", "Display Image", &value, 255, on_trackbar, ptrToImg);
-    filteredImg = radialFilter(origImg, value, true);
-    cv::imshow("Display Image", filteredImg);
-
-    while((cv::waitKey(100) & 0xEFFFFF) != 27);
-
+    cv::Mat *ptrToImg = &origImg;
+    runFilter(filterFlag, ptrToImg);
 
     return 0;
 }

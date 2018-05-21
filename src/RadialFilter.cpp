@@ -2,6 +2,13 @@
 #include <math.h>
 #include "RadialFilter.hpp"
 
+void radFilterCallback(int value, void* imgPtr) {
+    cv::Mat *origImg = static_cast<cv::Mat*>(imgPtr);
+    imgPtr = NULL; // dunno if i need this but just to be sure
+    cv::Mat filteredImg;
+    filteredImg = radialFilter(*origImg, value, true);
+    cv::imshow("Image", filteredImg);
+}
 
 cv::Mat radialFilter(cv::Mat origImg, int intensity, bool circflag) {
     //tranformation to logpolar image: center is center of image, radius is half of the diagonal i.e. catches whole image

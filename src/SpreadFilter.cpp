@@ -8,6 +8,13 @@ int getRandint(int rangea, int rangeb) {
     return out;
 }
 
+void sprFilterCallback(int value, void* vparamsPtr) {
+    s_spreadFilter *paramsPtr = static_cast<s_spreadFilter*>(vparamsPtr);
+    vparamsPtr = NULL;
+    cv::Mat filteredImg;
+    filteredImg = spreadFilter(*(paramsPtr->img), paramsPtr->xspr, paramsPtr->yspr);
+    cv::imshow("Image", filteredImg);
+}
 
 void swapPix(cv::Mat& img, cv::Mat& checkGrid,  int h,  int w,  int xspread,  int yspread) {
 
@@ -42,6 +49,7 @@ cv::Mat spreadFilter(cv::Mat origImage, int xspread, int yspread) {
     //the swapped pixels become 255 as a flag not to be swapped again
     int width = origImage.cols;
     int height = origImage.rows;
+    cv::Mat copyImage = origImage.clone();
     //debug
     /* printf("OPENCV:%d\n", CV_MAJOR_VERSION); */
     /* printf("size: w:%d h:%d\n", width, height);//RIGHT */
@@ -54,10 +62,10 @@ cv::Mat spreadFilter(cv::Mat origImage, int xspread, int yspread) {
             if(checkGrid.at<unsigned char>(h, w)){
                 continue;
             } else {
-                swapPix(origImage, checkGrid, h, w, xspread, yspread);
+                swapPix(copyImage, checkGrid, h, w, xspread, yspread);
             };
         }
     }
-    return origImage;
+    return copyImage;
 };
 
