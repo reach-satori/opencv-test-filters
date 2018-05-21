@@ -6,6 +6,14 @@
 
 #IncludeRegexTransform: 
 
+/home/satori/dev/opencvtest/src/RadialFilter.cpp
+opencv2/opencv.hpp
+-
+math.h
+-
+RadialFilter.hpp
+/home/satori/dev/opencvtest/src/RadialFilter.hpp
+
 /home/satori/dev/opencvtest/src/SpreadFilter.cpp
 stdio.h
 -
@@ -25,6 +33,8 @@ opencv2/opencv.hpp
 -
 SpreadFilter.hpp
 /home/satori/dev/opencvtest/src/SpreadFilter.hpp
+RadialFilter.hpp
+/home/satori/dev/opencvtest/src/RadialFilter.hpp
 
 /usr/local/include/opencv2/calib3d.hpp
 opencv2/core.hpp

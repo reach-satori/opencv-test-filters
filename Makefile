@@ -123,6 +123,33 @@ main/fast:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
+src/RadialFilter.o: src/RadialFilter.cpp.o
+
+.PHONY : src/RadialFilter.o
+
+# target to build an object file
+src/RadialFilter.cpp.o:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/RadialFilter.cpp.o
+.PHONY : src/RadialFilter.cpp.o
+
+src/RadialFilter.i: src/RadialFilter.cpp.i
+
+.PHONY : src/RadialFilter.i
+
+# target to preprocess a source file
+src/RadialFilter.cpp.i:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/RadialFilter.cpp.i
+.PHONY : src/RadialFilter.cpp.i
+
+src/RadialFilter.s: src/RadialFilter.cpp.s
+
+.PHONY : src/RadialFilter.s
+
+# target to generate assembly for a file
+src/RadialFilter.cpp.s:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/RadialFilter.cpp.s
+.PHONY : src/RadialFilter.cpp.s
+
 src/SpreadFilter.o: src/SpreadFilter.cpp.o
 
 .PHONY : src/SpreadFilter.o
@@ -186,6 +213,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... main"
 	@echo "... edit_cache"
+	@echo "... src/RadialFilter.o"
+	@echo "... src/RadialFilter.i"
+	@echo "... src/RadialFilter.s"
 	@echo "... src/SpreadFilter.o"
 	@echo "... src/SpreadFilter.i"
 	@echo "... src/SpreadFilter.s"
