@@ -5,6 +5,15 @@
 #include "SpreadFilter.hpp"
 #include "RadialFilter.hpp"
 
+
+static void on_trackbar(int value, void* imgptr) {
+    /* if (value=0) {value = 1;} */
+    cv::Mat origImg = *static_cast<cv::Mat*>(imgptr);
+    cv::Mat filteredImg;
+    filteredImg = radialFilter(origImg, value, true);
+    cv::imshow("Display Image", filteredImg);
+}
+
 int main(int argc, char* argv[])
 {
     int xspr, yspr;
@@ -23,24 +32,31 @@ int main(int argc, char* argv[])
         }
     }
 
-    cv::Mat image;
-    image = cv::imread(argv[1], cv::IMREAD_COLOR);
+    cv::Mat origImg, filteredImg;
+    origImg = cv::imread(argv[1], cv::IMREAD_COLOR);
 
-    if ( !image.data )
+    if ( !origImg.data )
     {
         printf("No image data \n");
         return -1;
     }
 
     /* image = spreadFilter(image, xspr, yspr); */
+    /* image = radialFilter(image, intensity, circflag); */
+    /* cv::imwrite("test.jpg", image); */
     int intensity = 1;
     bool circflag = true;
-    image = radialFilter(image, intensity, circflag);
+    cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE | cv::WINDOW_GUI_EXPANDED);
 
-    cv::imwrite("test.jpg", image);
-    cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE );
-    cv::imshow("Display Image", image);
-    while((cv::waitKey() & 0xEFFFFF) != 27);
+    int value = 5;
+    bool changed = true;
+    void *ptrToImg = &origImg;
+    cv::createTrackbar("track1", "Display Image", &value, 255, on_trackbar, ptrToImg);
+    filteredImg = radialFilter(origImg, value, true);
+    cv::imshow("Display Image", filteredImg);
+
+    while((cv::waitKey(100) & 0xEFFFFF) != 27);
+
 
     return 0;
 }
