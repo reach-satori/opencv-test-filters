@@ -377,10 +377,14 @@ SUFFIXES	Makefile	/^SUFFIXES =$/;"	m
 const	CMakeFiles/3.10.2/CompilerIdC/CMakeCCompilerId.c	10;"	d	file:
 cx	include/RadialFilter.hpp	/^    int cx;$/;"	m	struct:s_radialFilter
 cy	include/RadialFilter.hpp	/^    int cy;$/;"	m	struct:s_radialFilter
+edgeFilter	src/EdgeFilter.cpp	/^cv::Mat edgeFilter(const cv::Mat& origImg, int ratio) {$/;"	f
+edgeFilterCallback	src/EdgeFilter.cpp	/^void edgeFilterCallback(int value, void* vparamsPtr){$/;"	f
+edgeFilterInit	src/EdgeFilter.cpp	/^void edgeFilterInit(cv::Mat *ptrToImg, s_edgeFilter& params) {$/;"	f
 features	CMakeFiles/feature_tests.c	/^  const char features[] = {"\\n"$/;"	v
 features	CMakeFiles/feature_tests.cxx	/^  const char features[] = {"\\n"$/;"	v
 getDistance	src/RadialFilter.cpp	/^double getDistance(cv::Point2f p1, cv::Point2f p2) {$/;"	f
 getRandint	src/SpreadFilter.cpp	/^int getRandint(int rangea, int rangeb) {$/;"	f
+img	include/EdgeFilter.hpp	/^    cv::Mat* img;$/;"	m	struct:s_edgeFilter
 img	include/RadialFilter.hpp	/^    cv::Mat *img;$/;"	m	struct:s_radialFilter
 img	include/SpreadFilter.hpp	/^    cv::Mat *img;$/;"	m	struct:s_spreadFilter
 info_arch	CMakeFiles/3.10.2/CompilerIdC/CMakeCCompilerId.c	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
@@ -414,13 +418,16 @@ qnxnto	CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* qnxn
 radFilterInit	src/RadialFilter.cpp	/^void radFilterInit(cv::Mat *ptrToImg, s_radialFilter& params) {$/;"	f
 radFilterTrackCallback	src/RadialFilter.cpp	/^void radFilterTrackCallback(int value, void* paramPtr) {$/;"	f
 radialFilter	src/RadialFilter.cpp	/^cv::Mat radialFilter(cv::Mat origImg, int intensity, int cx, int cy) {$/;"	f
+ratio	include/EdgeFilter.hpp	/^    int ratio;$/;"	m	struct:s_edgeFilter
 runFilter	src/main.cpp	/^void runFilter(int filterFlag, cv::Mat *ptrToImg) {$/;"	f
+s_edgeFilter	include/EdgeFilter.hpp	/^struct s_edgeFilter {$/;"	s
 s_radialFilter	include/RadialFilter.hpp	/^struct s_radialFilter {$/;"	s
 s_spreadFilter	include/SpreadFilter.hpp	/^struct s_spreadFilter {$/;"	s
 sprFilterCallback	src/SpreadFilter.cpp	/^void sprFilterCallback(int value, void* vparamsPtr) {$/;"	f
 sprFilterInit	src/SpreadFilter.cpp	/^void sprFilterInit(cv::Mat *ptrToImg, s_spreadFilter& params) {$/;"	f
 spreadFilter	src/SpreadFilter.cpp	/^cv::Mat spreadFilter(cv::Mat origImage, int xspread, int yspread) {$/;"	f
 swapPix	src/SpreadFilter.cpp	/^void swapPix(cv::Mat& img, cv::Mat& checkGrid,  int h,  int w,  int xspread,  int yspread) {$/;"	f
+threshold	include/EdgeFilter.hpp	/^    int threshold;$/;"	m	struct:s_edgeFilter
 volatile	CMakeFiles/3.10.2/CompilerIdC/CMakeCCompilerId.c	11;"	d	file:
 xspr	include/SpreadFilter.hpp	/^    int xspr;$/;"	m	struct:s_spreadFilter
 yspr	include/SpreadFilter.hpp	/^    int yspr;$/;"	m	struct:s_spreadFilter
