@@ -1,6 +1,21 @@
 #include <opencv2/opencv.hpp>
 #include <math.h>
 #include "RadialFilter.hpp"
+void radFilterInit(cv::Mat *ptrToImg, s_radialFilter& params) {
+
+            //set default values
+            params.intensity = 5;
+            params.cx = ptrToImg->cols/2;
+            params.cy = ptrToImg->rows/2;
+            params.img = ptrToImg;
+
+            void *ptrToParams = &params;
+            cv::createTrackbar("Intensity", "Image", &(params.intensity), 255, radFilterTrackCallback, ptrToParams);
+            cv::createTrackbar("Center x", "Image", &(params.cx), ptrToImg->cols, radFilterTrackCallback, ptrToParams);
+            cv::createTrackbar("Center y", "Image", &(params.cy), ptrToImg->rows, radFilterTrackCallback, ptrToParams);
+            //run once before entering loop so a black image doesn't get displayed
+            radFilterTrackCallback(params.intensity, ptrToParams);
+}
 
 double getDistance(cv::Point2f p1, cv::Point2f p2) {
     double dist = sqrt(pow(p1.x - p2.x, 2) + pow((p1.y - p2.y), 2));

@@ -5,6 +5,7 @@
 
 #include "SpreadFilter.hpp"
 #include "RadialFilter.hpp"
+#include "EdgeFilter.hpp"
 
 
 //TODO: put argument processing in a function
@@ -20,39 +21,26 @@ void printHelp() {
 }
 
 void runFilter(int filterFlag, cv::Mat *ptrToImg) {
-    /* cv::Mat origImg = *static_cast<cv::Mat*>(vptrToImg); */
     cv::namedWindow("Image", cv::WINDOW_AUTOSIZE | cv::WINDOW_GUI_EXPANDED);
     switch(filterFlag) {
         case 0: {
             s_radialFilter params;
-            //set a default value(unimportant)
-            params.intensity = 5;
-            params.cx = ptrToImg->cols/2;
-            params.cy = ptrToImg->rows/2;
-            params.img = ptrToImg;
-            //cast Mat* to void* since the trackbar callback function requires it (gets cast back there)
-            void *ptrToParams = &params;
-            cv::createTrackbar("Intensity", "Image", &(params.intensity), 255, radFilterTrackCallback, ptrToParams);
-            cv::createTrackbar("Center x", "Image", &(params.cx), ptrToImg->cols, radFilterTrackCallback, ptrToParams);
-            cv::createTrackbar("Center y", "Image", &(params.cy), ptrToImg->rows, radFilterTrackCallback, ptrToParams);
-            //run once before entering loop so a black image doesn't get displayed
-            radFilterTrackCallback(params.intensity, ptrToParams);
-            while((cv::waitKey(100) & 0xEFFFFF) != 27);
+            radFilterInit(ptrToImg, params);
         }
             break;
+
         case 1: {
             s_spreadFilter params;
-            params.xspr = 5;
-            params.yspr = 5;
-            params.img = ptrToImg;
-            void *ptrToParams = &params;
-            cv::createTrackbar("X spread", "Image", &(params.xspr), 100, sprFilterCallback, ptrToParams);
-            cv::createTrackbar("Y spread", "Image", &(params.yspr), 100, sprFilterCallback, ptrToParams);
-            sprFilterCallback(5, ptrToParams);
-            while((cv::waitKey(100) & 0xEFFFFF) != 27);
-            }
+            sprFilterInit(ptrToImg, params);
+        }
+            break;
+        case 2: {
+            s_edgeFilter params;
+            edgeFilterInit(ptrToImg, params);
+        }
             break;
     }
+        while((cv::waitKey(100) & 0xEFFFFF) != 27);
 }
 
 

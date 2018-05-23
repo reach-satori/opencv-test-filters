@@ -3,6 +3,17 @@
 #include <opencv2/opencv.hpp>
 #include "SpreadFilter.hpp"
 
+void sprFilterInit(cv::Mat *ptrToImg, s_spreadFilter& params) {
+            params.xspr = 5;
+            params.yspr = 5;
+            params.img = ptrToImg;
+            void *ptrToParams = &params;
+
+            cv::createTrackbar("X spread", "Image", &(params.xspr), 100, sprFilterCallback, ptrToParams);
+            cv::createTrackbar("Y spread", "Image", &(params.yspr), 100, sprFilterCallback, ptrToParams);
+            sprFilterCallback(5, ptrToParams);
+}
+
 int getRandint(int rangea, int rangeb) {
     int out = rand()%((rangeb - rangea) + 1) + rangea;
     return out;
