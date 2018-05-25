@@ -24,14 +24,13 @@ void edgeFilterCallback(int value, void* vparamsPtr){
     cv::imshow("Image", filteredImg);
 }
 
+//stole this function
 cv::Mat quantizeColors(cv::Mat& img, int ncolors) {
     cv::Mat opImage, output;
     output = img.clone();
 
     output.convertTo(opImage, CV_32F);
     opImage = opImage.reshape(3, opImage.total());
-    /* printf("rows:%d| cols:%d| depth:%d", opImage.rows, opImage.cols, opImage.depth()); */
-
 
     cv::Mat labels, centers;
     cv::kmeans(opImage, ncolors, labels, cv::TermCriteria(cv::TermCriteria::EPS + cv::TermCriteria::COUNT, 10, 1.0), 3,
@@ -71,22 +70,24 @@ cv::Mat edgeFilter(cv::Mat& origImg, int ratio, int thickness, int ncolors) {
     cv::Mat origCopy, colorInfo;
     colorInfo.create(origImg.size(), origImg.type());
     origCopy = origImg.clone();
-    /* cv::medianBlur(colorInfo, colorInfo, 7); */
+
     colorInfo = quantizeColors(origImg, ncolors);
 
     cv::cvtColor(origCopy, origCopy, cv::COLOR_BGR2GRAY );
     //origCopy should be CV_8U 1channel at this point
 
     //threshold can be changed but for the purposes of this simple filter, it's not necessary
+    //run edge detection with fixed initial threshold since finer control isn't required
     cv::blur(origCopy, origCopy, cv::Size(3, 3));
     cv::Canny(origCopy, origCopy,(double) 2, 2*ratio, 5);
 
     //thicken lines
     cv::Mat kernel = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(thickness,thickness));
     cv::dilate(origCopy, origCopy, kernel);
+
     //take negative
-    /* cv::subtract(cv::Scalar(255), origCopy, origCopy); */
-    cv::cvtColor(origCopy, origCopy, cv::COLOR_GRAY2BGR, 1.0/255 );
+    cv::cvtColor(origCopy, origCopy, cv::COLOR_GRAY2BGR);
+    //subtract from quantized color
     cv::subtract(colorInfo, origCopy, origCopy);
 
     return origCopy;

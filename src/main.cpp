@@ -17,7 +17,7 @@ void printHelp() {
         printf("-img tells the program you'll provide a path to an image as a 4th argument.\n");
         printf("-cam will bring up video feed from a camera to capture the image on the spot.\n");
         printf("the third argument, 0, 1 or 2, defines which filter you will use.\n");
-        printf("0 for radial filter, 1 for spread filter. (2 not implemented yet)\n");
+        printf("0 for radial filter, 1 for spread filter. 2 for cartoon filter\n");
 }
 
 void runFilter(int filterFlag, cv::Mat *ptrToImg) {
@@ -34,12 +34,14 @@ void runFilter(int filterFlag, cv::Mat *ptrToImg) {
             sprFilterInit(ptrToImg, params);
         }
             break;
+
         case 2: {
             s_edgeFilter params;
             edgeFilterInit(ptrToImg, params);
         }
             break;
     }
+    // filter runs here with callbacks
         while((cv::waitKey(100) & 0xEFFFFF) != 27);
 }
 
@@ -68,22 +70,32 @@ int main(int argc, char* argv[])
         printHelp();
         return -1;
     }
+
+    //argument processing done
+
+    cv::Mat frame;
     if (args[1] == "-cam") {
-        printHelp();
-        printf("unimplemented");
-        return -1;
+        cv::VideoCapture cap;
+        if(!cap.open(0))
+            return 0;
+        for(;;) {
+            cap >> frame;
+            if( frame.empty() ) break; // end of video stream
+            imshow("Image", frame);
+            if(cv::waitKey(10) == 27 ) break; // stop capturing by pressing ESC
+        }
+    } else {
+        frame = cv::imread(argv[3], cv::IMREAD_COLOR);
     }
 
-    cv::Mat origImg;
-    origImg = cv::imread(argv[3], cv::IMREAD_COLOR);
 
-    if ( !origImg.data )
+    if ( !frame.data )
     {
         printf("No image data \n");
         return -1;
     }
 
-    cv::Mat *ptrToImg = &origImg;
+    cv::Mat *ptrToImg = &frame;
     runFilter(filterFlag, ptrToImg);
 
     return 0;
